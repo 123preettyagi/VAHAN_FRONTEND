@@ -5,26 +5,33 @@ const API = axios.create({
 });
 
 // ================= TOKEN CHECK =================
-const isTokenExpired = (token) => {
-  try {
+const isTokenExpired = (token) => 
+  {
+  try 
+  {
     const payload = JSON.parse(atob(token.split(".")[1]));
     return Date.now() >= payload.exp * 1000;
-  } catch {
+  } catch 
+  {
     return true;
   }
 };
 
 // ================= GET TOKEN =================
-export const getToken = async () => {
+export const getToken = async () =>
+  {
   let token = localStorage.getItem("token");
 
   // Existing token valid
-  if (token && !isTokenExpired(token)) {
+  if (token && !isTokenExpired(token)) 
+  {
+    console.log("TOKEN FROM LOCAL STORAGE =", token);
     return token;
   }
 
   // Login again if token expired
-  const response = await API.post("/api/auth/login", {
+  const response = await API.post("/api/auth/login", 
+  {
     username: "RAVI KUMAR",
     password: "54321",
   });
@@ -59,10 +66,10 @@ export const getWithAuth = async (url, options = {}) => {
 // Generate OTP
 export const generateOtpApi = async (data) => {
   try {
-    const token = await getToken();  // 👈 ADD THIS
-    const response = await API.post("/api/generate-otp", data, {
+    const token = await getToken();  //  ADD THIS
+    const response = await API.post("/api/transactions/otp/send", data, {
       headers: {
-        Authorization: `Bearer ${token}`,  // 👈 ADD THIS
+        Authorization: `Bearer ${token}`,  //  ADD THIS
       },
     });
     return response;
@@ -71,22 +78,14 @@ export const generateOtpApi = async (data) => {
     throw error;
   }
 };
-/*export const generateOtpApi = async (data) => {
-  try {
-    const response = await API.post("/api/generate-otp", data);
-    return response;
-  } catch (error) {
-    console.error("Generate OTP error:", error);
-    throw error;
-  }
-}; */
+
 
 
 // Verify OTP
 export const verifyOtpApi = async (data) => {
   try {
     const token = await getToken();  // ← ADD THIS
-    const response = await API.post("/api/verify-otp", data, {
+    const response = await API.post("/api/transactions/otp/verify", data, {
       headers: {
         Authorization: `Bearer ${token}`,  // ← ADD THIS
       },
@@ -97,20 +96,12 @@ export const verifyOtpApi = async (data) => {
     throw error;
   }
 };
-/* export const verifyOtpApi = async (data) => {
-  try {
-    const response = await API.post("/api/verify-otp", data);
-    return response;
-  } catch (error) {
-    console.error("Verify OTP error:", error);
-    throw error;
-  }
-}; */
+
 
 
 // Feedback Data API
 export const feedbackDataApi = async (data) => {
-  return getWithAuth("/api/feedback-data", {
+  return getWithAuth("http://localhost:8080/api/transactions/save-feedback", {
     method: "POST",
     data,
   });
@@ -123,13 +114,35 @@ export const submitComplaintApi = async (data) =>
  
  const token = await getToken();
 
-  return API.post("/api/submit-complaint", data, {
+  return API.post("/api/transactions/submit-complaint", data, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data",
     },
   }); 
 
+};
+
+
+// Complaint Status API
+export const complaintStatusApi = async (requestId) => {
+  try {
+    const token = await getToken();
+
+    const response = await API.get(
+      `/api/transactions/complainstatus/${requestId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Complaint Status Error:", error);
+    throw error;
+  }
 };
 
 export default API;

@@ -178,7 +178,7 @@ const FeedbackForm = () => {
       setLoading(true);
       setMessage("");
       const response = await generateOtpApi({
-        emailId: formData.email
+        email: formData.email
       });
       console.log("Generate OTP response:", response.data);
 
@@ -209,7 +209,7 @@ const FeedbackForm = () => {
       setLoading(true);
       setMessage("");
       const response = await verifyOtpApi({
-        emailId: formData.email,
+        email: formData.email,
         otp: otp
       });
       console.log("Verify OTP response:", response.data);
@@ -234,16 +234,44 @@ const FeedbackForm = () => {
     }
   };
 
+ 
+  // ================= RESEND OTP =================
+const handleResendOtp = async () => {
+  if (!formData.email) {
+    setMessage("Please enter email address");
+    return;
+  }
+
+  try {
+    setLoading(true);
+    setMessage("");
+
+    const response = await generateOtpApi({
+      email: formData.email,
+    });
+
+    console.log("Resend OTP response:", response.data);
+
+    setMessage(
+      response.data.message || "OTP Resent Successfully to your email"
+    );
+  } catch (error) {
+    console.error("Resend OTP error:", error);
+
+    setMessage(
+      error.response?.data?.message || "Failed to resend OTP"
+    );
+  } finally {
+    setLoading(false);
+  }
+};
+
+  
   // ================= SUBMIT FORM =================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate required fields
-    /* if (!formData.vehicleRegistrationNo) {
-      setMessage("Please enter Vehicle Registration Number");
-      return;
-    } */
-
+    
 // ================= VEHICLE NUMBER VALIDATION =================
 if (searchBy === "registration") {
 
@@ -307,9 +335,10 @@ if (searchBy === "application") {
 
         // ================= FILE REQUIRED VALIDATION =================
         // FILE CHECK FIRST
-    if (!formData.file) {
+    if (!formData.file) 
+      {
       setMessage("You need to upload screenshot of the problem");
-      return;
+     return;
     }
 
     if (!formData.email) {
@@ -342,7 +371,7 @@ if (searchBy === "application") {
 
       // Append file if exists
       if (formData.file) {
-        submitData.append("file", formData.file);
+        submitData.append("image", formData.file);
       }
 
       const response = await submitComplaintApi(submitData);
@@ -621,23 +650,24 @@ if (searchBy === "application") {
   </div>
 
   {/* Button */}
-  {!otpGenerated ? (
-    <button
-      type="button"
-      onClick={handleGenerateOtp}
-      className="h-[45px] px-4 bg-[#2f7e94] text-white rounded-md mt-6 cursor-pointer hover:bg-[#256b7d] transition duration-300"
-    >
-      Generate OTP
-    </button>
-  ) : (
-    <button
-      type="button"
-      onClick={handleVerifyOtp}
-      className="h-[45px] px-4 bg-green-600 text-white rounded-md mt-6 cursor-pointer hover:bg-green-700 transition duration-300"
-    >
-      Verify OTP
-    </button>
-  )}
+  
+  {!otpGenerated ? ( <button type="button" onClick={handleGenerateOtp} disabled={loading} className="h-[45px] px-4 bg-[#2f7e94] text-white rounded-md cursor-pointer hover:bg-[#256b7d] transition duration-300" > 
+    Generate OTP 
+    </button> )
+     : 
+     ( <> 
+     <button type="button" onClick={handleVerifyOtp} disabled={loading} className="h-[45px] px-4 bg-green-600 text-white rounded-md cursor-pointer hover:bg-green-700 transition duration-300" > 
+     Verify OTP 
+     </button> 
+     {!otpVerified && ( <button type="button" onClick={handleResendOtp} disabled={loading} className="h-[45px] px-4 bg-orange-500 text-white rounded-md cursor-pointer hover:bg-orange-600 transition duration-300" > 
+      Resend OTP 
+      </button> )} 
+      </> 
+    )}
+
+
+
+
 </div>
 
 

@@ -4,10 +4,16 @@ import Sidebar from "./components/Sidebar";
 import Content from "./components/Content";
 import Map from "./components/Map";
 import Footer from "./components/Footer";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import Payment from "./components/Payment";
 import VerifyReceipt from "./components/VerifyReceipt";
 import FeedbackForm from "./components/FeedbackForm";
+import AuthPage from "./components/AuthPage";
 
 // 
 import FeedbackStatus from "./components/FeedbackStatus";
@@ -28,12 +34,13 @@ function Layout({ children }) {
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Navigate to="/auth" />} />
+        <Route path="/auth" element={<AuthPage />} />
 
-        {/* Home Page */}
         <Route
-          path="/"
+          path="/dashboard"
           element={
             <Layout>
               <div className="flex gap-4 p-4">
@@ -45,17 +52,15 @@ function App() {
           }
         />
 
-        {/* Payment  Page */}
         <Route
-          path="/Payment"
+          path="/payment"
           element={
             <Layout>
-              <Payment/>
+              <Payment />
             </Layout>
           }
         />
 
-        {/* Verify Receipt Page */}
         <Route
           path="/verify-receipt"
           element={
@@ -64,25 +69,19 @@ function App() {
             </Layout>
           }
         />
-{/*  Feedbackform page  */}
-<Route
-  path="/feedback"
-  element={
-    <Layout>
-      <FeedbackForm />
-    </Layout>
-  }
-/>
 
-
- {/*  ADD THIS ROUTE */}
         <Route
-          path="/check-status"
-          element={<FeedbackStatus />}
+          path="/feedback"
+          element={
+            <Layout>
+              <FeedbackForm />
+            </Layout>
+          }
         />
 
+        <Route path="/check-status" element={<FeedbackStatus />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

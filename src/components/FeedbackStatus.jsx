@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { complaintStatusApi } from "./token";
 
 
 function FeedbackStatus() {
@@ -10,6 +11,8 @@ function FeedbackStatus() {
   const [requestId, setRequestId] = useState("");
   const [captcha, setCaptcha] = useState("");
   const [generatedCaptcha, setGeneratedCaptcha] = useState("");
+  const [statusData, setStatusData] = useState(null);
+const [loading, setLoading] = useState(false);
 
   // GENERATE RANDOM CAPTCHA
   const generateCaptcha = () => {
@@ -32,7 +35,7 @@ function FeedbackStatus() {
     generateCaptcha();
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
 
     // REQUEST ID VALIDATION
@@ -64,7 +67,33 @@ function FeedbackStatus() {
       return;
     }
 
-    alert("Form Submitted Successfully");
+   /* alert("Form Submitted Successfully"); */
+
+
+  try {
+    setLoading(true);
+
+    const response = await complaintStatusApi(requestId);
+
+    console.log(response.data);
+
+    setStatusData(response.data);
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (error.response?.data?.message) {
+      alert(error.response.data.message);
+    } else {
+      alert("Failed to fetch complaint status");
+    }
+
+  } finally {
+    setLoading(false);
+  }
+
+
   };
 
   return (
@@ -85,7 +114,7 @@ function FeedbackStatus() {
           {/* LEFT LOGO */}
           <div className="flex items-center gap-2">
             <img
-              src=""
+              src="https://upload.wikimedia.org/wikipedia/commons/5/55/Emblem_of_India.svg"
               alt="logo"
               className="w-10 md:w-12"
             />
@@ -112,10 +141,10 @@ function FeedbackStatus() {
 
           {/* RIGHT LOGO */}
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Swachh_Bharat_Logo.png"
-            alt="swachh bharat"
-            className="w-14 md:w-16"
-          />
+  src="swach.jpg"
+  alt="swachh bharat"
+  className="w-50 md:w-50"
+/>
         </div>
 
         {/* NAVBAR */}
@@ -221,13 +250,13 @@ function FeedbackStatus() {
             {/* BUTTONS */}
             <div className="flex justify-center gap-4">
 
-              <button
-                type="submit"
-                className="bg-[#1386a8] hover:bg-[#0f6d88] text-white text-sm md:text-base font-bold px-6 py-2 rounded-xl shadow border border-gray-500"
-              >
-                Submit
-              </button>
-
+             <button
+  type="submit"
+  disabled={loading}
+  className="bg-[#1386a8] hover:bg-[#0f6d88] text-white text-sm md:text-base font-bold px-6 py-2 rounded-xl shadow border border-gray-500"
+>
+  {loading ? "Searching..." : "Submit"}
+</button>
               <button
                 type="button"
                 onClick={() => navigate("/")}
@@ -238,6 +267,71 @@ function FeedbackStatus() {
             </div>
 
           </form>
+     
+     {statusData && (
+  <div className="mt-8 bg-white rounded-lg shadow-md p-6 border">
+
+    <h2 className="text-xl font-bold text-center text-blue-700 mb-4">
+      Complaint Status Details
+    </h2>
+
+    <div className="grid md:grid-cols-2 gap-4">
+
+      <div>
+        <strong>Request ID:</strong>
+        <p>{statusData.requestId}</p>
+      </div>
+
+      <div>
+        <strong>Applicant Name:</strong>
+        <p>{statusData.applicantName}</p>
+      </div>
+
+      <div>
+        <strong>Vehicle Number:</strong>
+        <p>{statusData.vehicleNumber}</p>
+      </div>
+
+      <div>
+        <strong>Service Type:</strong>
+        <p>{statusData.serviceType}</p>
+      </div>
+
+      <div>
+        <strong>Amount:</strong>
+        <p>₹ {statusData.amount}</p>
+      </div>
+
+      <div>
+        <strong>Payment Status:</strong>
+        <p>{statusData.paymentStatus}</p>
+      </div>
+
+      <div>
+        <strong>Payment Method:</strong>
+        <p>{statusData.paymentMethod}</p>
+      </div>
+
+      <div>
+        <strong>Reference Number:</strong>
+        <p>{statusData.referenceNumber}</p>
+      </div>
+
+      <div>
+        <strong>Transaction Date:</strong>
+        <p>{statusData.transactionDate}</p>
+      </div>
+
+      <div>
+        <strong>Message:</strong>
+        <p>{statusData.message}</p>
+      </div>
+
+    </div>
+  </div>
+)}
+
+
         </div>
       </div>
     </div>
