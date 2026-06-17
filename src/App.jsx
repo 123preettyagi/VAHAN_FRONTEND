@@ -17,6 +17,15 @@ import AuthPage from "./components/AuthPage";
 
 // 
 import FeedbackStatus from "./components/FeedbackStatus";
+import AppointmentLogin from "./components/AppointmentLogin";
+import HelpdeskLogin from "./components/HelpdeskLogin";
+import RTOLogin from "./components/RTOLogin";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
+import AppointmentDashboard from "./components/AppointmentDashboard";
+import VahanDashboard from "./components/VahanDashboard";
+import RTODashboard from "./components/RTODashboard";
+import NocIssuedVehicle from "./components/NocIssuedVehicle";
 
 
 //  Layout wrapper
@@ -53,6 +62,20 @@ function App() {
         />
 
         <Route
+  path="/appointment-login"
+  element={<AppointmentLogin />}
+/>
+
+<Route
+  path="/helpdesk-login"
+  element={<HelpdeskLogin />}
+/>
+
+<Route
+  path="/rto-login"
+  element={<RTOLogin />}
+/>
+        <Route
           path="/payment"
           element={
             <Layout>
@@ -78,6 +101,18 @@ function App() {
             </Layout>
           }
         />
+
+        <Route path="/forgot-password" element={<ForgotPassword />}/>
+        <Route path="/reset-password" element={<ResetPassword />} />
+ 
+      <Route path="/AppointmentDashboard" element={<AppointmentDashboard />} />
+      <Route path="/VahanDashboard" element={<VahanDashboard />} />
+      <Route path="/rto-dashboard" element={<RTODashboard />} />
+<Route
+  path="/noc-issued-vehicle"
+  element={<NocIssuedVehicle />}
+/>
+
 
         <Route path="/check-status" element={<FeedbackStatus />} />
       </Routes>

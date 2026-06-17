@@ -15,6 +15,7 @@ function Login({ onLogin })
   e.preventDefault();
 
   try {
+    
     const response = await axios.post(
       "http://localhost:8080/api/auth/login",
       {
@@ -80,12 +81,39 @@ function Login({ onLogin })
           />
         </div>
 
+           {/* Password */}
+          <div className="mb-3">
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          {/* Forgot Password */}
+          <div className="text-right mb-4">
+            <button
+              type="button"
+              onClick={() => navigate("/forgot-password")}
+              className="text-sm text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
+            >
+              Forgot Password?
+            </button>
+          </div>
+
+
         <button
           type="submit"
           className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition"
         >
           Login
         </button>
+
+
+
       </form>
     </div>
   </div>
