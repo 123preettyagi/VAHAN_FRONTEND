@@ -70,7 +70,8 @@ function AppointmentDashboard() {
               onClick={() =>
                 (window.location.href = "/book-appointment")
               }
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white py-3 rounded-xl font-semibold shadow-lg"
+              className="w-full cursor-pointer bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 rounded-xl font-semibold shadow-lg"
+              //className="w-full bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-700 hover:to-cyan-600 text-white py-3 rounded-xl font-semibold shadow-lg"
             >
               Book Now
             </button>
@@ -91,9 +92,10 @@ function AppointmentDashboard() {
 
             <button
               onClick={() =>
-                (window.location.href = "/appointments")
+                (window.location.href = "/view-appointments")
               }
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 rounded-xl font-semibold shadow-lg"
+              className="w-full cursor-pointer bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 rounded-xl font-semibold shadow-lg"
+              //className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white py-3 rounded-xl font-semibold shadow-lg"
             >
               View Appointments
             </button>

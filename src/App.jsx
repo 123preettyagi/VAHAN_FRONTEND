@@ -26,6 +26,13 @@ import AppointmentDashboard from "./components/AppointmentDashboard";
 import VahanDashboard from "./components/VahanDashboard";
 import RTODashboard from "./components/RTODashboard";
 import NocIssuedVehicle from "./components/NocIssuedVehicle";
+import BookAppointment from "./components/BookAppointment";
+import ViewAppointments from "./components/ViewAppointments";
+import RegisterComplaint from "./components/RegisterComplaint";
+import TrackComplaint from "./components/TrackComplaint";
+import MyComplaints from "./components/MyComplaints";
+import AddVehicle from "./components/AddVehicle";
+//import RegisterVehicle from "./components/RegisterVehicle";
 
 
 //  Layout wrapper
@@ -106,8 +113,22 @@ function App() {
         <Route path="/reset-password" element={<ResetPassword />} />
  
       <Route path="/AppointmentDashboard" element={<AppointmentDashboard />} />
+       <Route
+          path="/book-appointment"
+          element={<BookAppointment />}
+        />
       <Route path="/VahanDashboard" element={<VahanDashboard />} />
       <Route path="/rto-dashboard" element={<RTODashboard />} />
+      <Route path="/AddVehicle" element={<AddVehicle />} /> 
+      <Route  path="/view-appointments" element={<ViewAppointments />} />
+
+ <Route path="/register-complaint" element={<RegisterComplaint />} />
+ <Route
+  path="/track-complaint"
+  element={<TrackComplaint />}
+/>
+<Route path="/my-complaints" element={<MyComplaints />} />
+
 <Route
   path="/noc-issued-vehicle"
   element={<NocIssuedVehicle />}

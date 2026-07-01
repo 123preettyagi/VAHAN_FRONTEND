@@ -1,8 +1,10 @@
 import Header from "./Header";
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
 
 function VahanDashboard() {
   const username = localStorage.getItem("username");
+  const navigate = useNavigate();
 
   const logout = () => {
     localStorage.clear();
@@ -15,18 +17,21 @@ function VahanDashboard() {
       title: "Register Complaint",
       desc: "Submit a new complaint regarding your vehicle.",
       color: "from-cyan-500 to-blue-600",
+      action: () => navigate("/register-complaint"),
     },
     {
       icon: "🔍",
       title: "Track Complaint",
       desc: "Check the latest status of your complaint.",
       color: "from-green-500 to-emerald-600",
+      action: () => navigate("/track-complaint"),
     },
     {
       icon: "📂",
       title: "My Complaints",
       desc: "View all complaints submitted by you.",
       color: "from-yellow-400 to-orange-500",
+      action: () => navigate("/my-complaints"),
     },
     {
       icon: "🚪",
